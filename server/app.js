@@ -3,9 +3,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
+const mongoose = require('mongoose')
+require('dotenv').config();
+
+mongoose
+   .connect(process.eventNames.MONGODB_URI)
+   .then(() => console.log('Connected to Mongoose.'))
+   .catch(err => console.log('Not connected to mongoose.', err));
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/Users/users');
 
 var app = express();
 
@@ -13,6 +21,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
